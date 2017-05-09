@@ -1,0 +1,59 @@
+entity Configuration {
+	name String required,
+    value String
+}
+
+entity User {
+	name String required,
+    profile Profile required,
+    mail String,
+    credentials String
+}
+
+entity UserBeaconAssociation {
+	startDate ZoneDateTime,
+    endDate ZoneDateTime,
+    user User required,
+    beacon Beacon required
+}
+
+entity Profile {
+	name String
+}
+
+entity Beacon {
+	key String required
+}
+
+/**
+ * Task entity.
+ * @author The JHipster team.
+ */
+entity Detection {
+	date ZoneDateTime,
+    beacon Beacon required
+}
+
+relationship ManyToOne {
+	UserBeaconAssociation{user} to User
+}
+
+relationship ManyToOne {
+	UserBeaconAssociation{beacon} to Beacon
+}
+relationship OneToOne {
+	User{profile} to Profile
+}
+
+relationship ManyToOne {
+	Detection{beacon} to Beacon
+}
+// Set pagination options
+paginate Detection with infinite-scroll
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except Employee, Job
+// Set an angular suffix
+angularSuffix * with monSuffixe
